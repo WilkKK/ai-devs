@@ -30,7 +30,7 @@ export class Scraper extends TaskBasic {
                 new SystemMessage(system),
                 new HumanMessage(question),
             ]);
-            console.log("input = " + input)
+            console.log("input = " + result?.content)
             console.log("content = " + result?.content)
         } catch (e) {
            console.log(e)

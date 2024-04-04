@@ -12,3 +12,7 @@ export function showTaskDetails({ code, msg, ...rest }: TaskResponse): void {
 export function showAnswerResponse({ code, note, msg }: AnswerResponse): void {
   [`Answer code: ${code}`, `Answer note: ${note}`, `Answer message: ${msg}`].map((msg: string) => console.log(msg))
 }
+
+export async function delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}

@@ -12,6 +12,7 @@ import { Whisper } from './tasks/whisper'
 import { Funtion } from './tasks/functions'
 import { Rodo } from './tasks/rodo'
 import { Scraper } from './tasks/scraper'
+import { Whoami } from './tasks/whoami'
 
 dotenv.config({ path: './.env' })
 process.on('unhandledRejection', handleError)
@@ -29,7 +30,8 @@ async function main() {
     // const task: TaskBasic = new Whisper("whisper")
     // const task: TaskBasic = new Funtion("functions")
     // const task: TaskBasic = new Rodo("rodo")
-    const task: TaskBasic = new Scraper("scraper")
+    // const task: TaskBasic = new Scraper("scraper")
+    const task: TaskBasic = new Whoami("whoami")
 
   const token = await aiDevsService.getToken(task.taskName)
   // const taskData = await aiDevsService.getTaskWithParams(token, "question", "What is capital of Poland?") //liar
