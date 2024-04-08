@@ -17,6 +17,9 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2",
     "@langchain/openai": "0.0.22",
-    "langchain": "0.1.28"
+    "langchain": "0.1.28",
+    "@qdrant/js-client-rest": "^1.7.0",
+    "ramda": "^0.29.1",
+    "uuid": "^9.0.1"
   }
 }
