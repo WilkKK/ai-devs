@@ -15,6 +15,9 @@ import { Scraper } from './tasks/scraper'
 import { Whoami } from './tasks/whoami'
 import { Search } from './tasks/search'
 import { People } from './tasks/people'
+import { Knowledge } from './tasks/knowledge'
+import { Tool } from './tasks/tools'
+import { Gnome } from './tasks/gnome'
 
 dotenv.config({ path: './.env' })
 process.on('unhandledRejection', handleError)
@@ -35,7 +38,10 @@ async function main() {
     // const task: TaskBasic = new Scraper("scraper")
     // const task: TaskBasic = new Whoami("whoami")
     // const task: TaskBasic = new Search("search")
-    const task: TaskBasic = new People("people")
+    // const task: TaskBasic = new People("people")
+    // const task: TaskBasic = new Knowledge("knowledge")
+    // const task: TaskBasic = new Tool("tools")
+    const task: TaskBasic = new Gnome("gnome")
 
   const token = await aiDevsService.getToken(task.taskName)
   // const taskData = await aiDevsService.getTaskWithParams(token, "question", "What is capital of Poland?") //liar

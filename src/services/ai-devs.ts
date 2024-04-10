@@ -30,5 +30,6 @@ export async function sendAnswer(token: string, answer: unknown): Promise<Answer
   const { data } = await axios.post(`${process.env.AI_DEVS_API_URL}/answer/${token}`, { answer })
   console.log(data);
   return data
+
 }
 
