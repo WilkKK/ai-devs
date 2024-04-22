@@ -1,8 +1,5 @@
-import { ChatOpenAI } from '@langchain/openai'
 import { TaskResponse } from '../types/remote'
 import { TaskBasic } from './taskBasic'
-import OpenAI from 'openai'
-import { HumanMessage, SystemMessage } from 'langchain/schema'
 import * as qdrantService from '../services/qdrant'
 import { QdrantItem } from '../types/local'
 import * as langchainService from '../services/langchainService'
@@ -40,35 +37,28 @@ export class Search extends TaskBasic {
 
     private async prepareQdrantItems(news: News[]): Promise<QdrantItem[]> {
         const prepareItem = async ({ info, url, title }: News): Promise<QdrantItem> => ({
-          vector: await langchainService.getEmbedding(`Title: ${title}, ${info}`),
-          payload: { content: info, title, url },
-          id: v4(),
+            vector: await langchainService.getEmbedding(`Title: ${title}, ${info}`),
+            payload: { content: info, title, url },
+            id: v4(),
         })
-      
+
         return Promise.all(news.map(prepareItem))
-      }
-      
-    async resolveTask({ msg, input, question }: SearchData): Promise<unknown> {
+    }
 
-
+    async resolveTask({ question }: SearchData): Promise<unknown> {
         const client = qdrantService.createClient();
-
         if (!await qdrantService.isCollectionExists(client, COLLECTION_NAME)) {
             await qdrantService.createCollection(client, COLLECTION_NAME, true)
         }
-
         if (await qdrantService.isEmptyCollection(client, COLLECTION_NAME)) {
             const news = await this.getNews();
             const items = await this.prepareQdrantItems(news)
             await qdrantService.upsertItems(client, COLLECTION_NAME, items)
         }
-
         const queryEmbedding = await langchainService.getEmbedding(question)
         const response = await qdrantService.searchItem<SearchItem>(client, COLLECTION_NAME, queryEmbedding)
         return response.payload.url || ''
 
     }
-
-
 
 }

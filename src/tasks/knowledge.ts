@@ -1,12 +1,10 @@
 import { TaskResponse } from '../types/remote'
 import { TaskBasic } from './taskBasic'
-import * as qdrantService from '../services/qdrant'
 import * as langchainService from '../services/langchainService'
 
 type KnowledgeData = TaskResponse & {
     question: string
 }
-
 
 export class Knowledge extends TaskBasic {
 
@@ -14,9 +12,7 @@ export class Knowledge extends TaskBasic {
         super(name)
     }
 
-
-
-    async resolveTask({ msg, input, question }: KnowledgeData): Promise<unknown> {
+    async resolveTask({ question }: KnowledgeData): Promise<unknown> {
 
         const response = ""
         const systemMessage = `
@@ -26,11 +22,8 @@ export class Knowledge extends TaskBasic {
         ### Context:\n${response}
     `
         const responsAi = langchainService.invoke(systemMessage, question)
-        console.log("answer: " + responsAi)
         return responsAi
 
     }
-
-
 
 }

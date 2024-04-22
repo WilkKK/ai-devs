@@ -1,12 +1,9 @@
-import OpenAI from 'openai'
 import { TaskResponse } from '../types/remote'
 import { TaskBasic } from './taskBasic'
-import {ChatPromptTemplate} from "@langchain/core/prompts";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { ChatOpenAI } from '@langchain/openai';
 
-type LiarData = TaskResponse & {
-  blog: string[]
-}
+type LiarData = TaskResponse
 
 export class Liar extends TaskBasic {
 
@@ -14,20 +11,18 @@ export class Liar extends TaskBasic {
   humanTemplate = "Is there an answer to the question asked?";
   chatPrompt = ChatPromptTemplate.fromMessages([
     ["system", this.systemTemplate],
-]);
+  ]);
   constructor(name: string) {
     super(name)
   }
 
-  async resolveTask({ answer = ""}: LiarData): Promise<unknown> {
+  async resolveTask({ answer = "" }: LiarData): Promise<unknown> {
     const chat = new ChatOpenAI();
     const formattedChatPrompt = await this.chatPrompt.formatMessages({
-        answer: answer,
+      answer: answer,
     });
-  const { content } = await chat.invoke(formattedChatPrompt);
-
-console.log(content);
-return content
+    const { content } = await chat.invoke(formattedChatPrompt);
+    return content
   }
 
 }

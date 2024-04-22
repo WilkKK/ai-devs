@@ -1,21 +1,17 @@
 import { TaskResponse } from '../types/remote'
 import { TaskBasic } from './taskBasic'
 import * as langchainService from '../services/langchainService'
-import OpenAI from 'openai'
 
 type ToolData = TaskResponse & {
     question: string
 
 }
-
 export class Tool extends TaskBasic {
 
     constructor(name: string) {
         super(name)
     }
-
-
-    async resolveTask({ msg, hint, question }: ToolData): Promise<unknown> {
+    async resolveTask({ question }: ToolData): Promise<unknown> {
 
         const response = "Today is 2024-04-09."
         const systemMessage = `
@@ -28,7 +24,6 @@ export class Tool extends TaskBasic {
         ### Context:\n${response}
     `
         const responsAi = await langchainService.invoke(systemMessage, question)
-        console.log("answer: " + JSON.stringify(responsAi))
         return JSON.parse(responsAi)
 
     }

@@ -1,11 +1,10 @@
-import OpenAI from 'openai'
 import { TaskResponse } from '../types/remote'
 import { TaskBasic } from './taskBasic'
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { ChatOpenAI } from '@langchain/openai';
 import * as aiDevsService from '../services/ai-devs'
 import { delay } from '../helpers/utils';
-import {HumanMessage, SystemMessage} from "langchain/schema";
+import { HumanMessage, SystemMessage } from "langchain/schema";
 
 type WhoamiData = TaskResponse & {
     hint: string;
@@ -23,7 +22,7 @@ export class Whoami extends TaskBasic {
         super(name)
     }
 
-    private async giveMeHint(): Promise<string>{
+    private async giveMeHint(): Promise<string> {
         const token = await aiDevsService.getToken("whoami")
         const result = await aiDevsService.getTask(token);
         return result.hint as string
@@ -40,8 +39,6 @@ export class Whoami extends TaskBasic {
             new HumanMessage(this.hints),
         ]);
         this.counter++;
-        console.log("hints = " + this.hints);
-        console.log(content);
         return content as string;
     }
     async resolveTask({ hint = "" }: WhoamiData): Promise<unknown> {
@@ -53,13 +50,9 @@ export class Whoami extends TaskBasic {
         const { content } = await chat.invoke(formattedChatPrompt);
         let result = content as string;
         this.counter++;
-        console.log(result);
         while (result.toLowerCase() === "i need more details." && this.counter < 8) {
             result = await this.getAnswer();
         }
-     
-        console.log("RESULT: " + result)
-       
         return result
     }
 

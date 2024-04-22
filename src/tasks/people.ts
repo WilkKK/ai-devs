@@ -1,8 +1,5 @@
-import { ChatOpenAI } from '@langchain/openai'
 import { TaskResponse } from '../types/remote'
 import { TaskBasic } from './taskBasic'
-import OpenAI from 'openai'
-import { HumanMessage, SystemMessage } from 'langchain/schema'
 import * as qdrantService from '../services/qdrant'
 import { QdrantItem } from '../types/local'
 import * as langchainService from '../services/langchainService'
@@ -68,7 +65,7 @@ export class People extends TaskBasic {
         const prepareItem = async ({ name, surname, age, aboutMe, favoriteCharacter, favoriteFilm, favoriteSeries, favoriteColor }: Person): Promise<QdrantItem> => ({
             vector: await langchainService.getEmbedding(`${name}, ${surname}, ${age}, ${aboutMe}, ${favoriteCharacter}, ${favoriteFilm}, ${favoriteSeries}, ${favoriteColor}`),
             payload: {
-                 content: name + " " + surname + " " + age + " " + aboutMe + " " +
+                content: name + " " + surname + " " + age + " " + aboutMe + " " +
                     favoriteCharacter + " " + favoriteFilm + " " + favoriteSeries + " " + favoriteColor
             },
             id: v4(),
@@ -76,7 +73,7 @@ export class People extends TaskBasic {
         return Promise.all(news.map(prepareItem))
     }
 
-    async resolveTask({ msg, input, question }: PeopleData): Promise<unknown> {
+    async resolveTask({ question }: PeopleData): Promise<unknown> {
 
 
         const client = qdrantService.createClient();
@@ -101,12 +98,8 @@ export class People extends TaskBasic {
         ### Context:\n${response.payload.content}
     `
         const responsAi = langchainService.invoke(systemMessage, question)
-
-        console.log(responsAi)
         return responsAi
 
     }
-
-
 
 }

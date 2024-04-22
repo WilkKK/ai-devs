@@ -39,12 +39,10 @@ export class Inprompt extends TaskBasic {
                 question
             ),
         ]);
-        console.log(content)
         return content
     }
 
     private async getContent(input: string[], question: string) : Promise<string[]>{
-        console.log(question);
         const chat = new ChatOpenAI();
         const formattedChatPrompt = await this.chatPrompt.formatMessages({
             text: question

@@ -1,3 +1,5 @@
+import { Express } from 'express'
+
 export type TasksConfig = {
   [key: string]: (data: any) => Promise<unknown>
 }
@@ -20,4 +22,9 @@ export enum Model {
   TEXT_EMBEDDING_3_SMALL = 'text-embedding-3-small',
   TEXT_EMBEDDING_ADA_002 = 'text-embedding-ada-002',
   WHISPER_1 = 'whisper-1',
+}
+
+export type Server = {
+  server: Express
+  url: string
 }

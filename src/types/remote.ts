@@ -13,3 +13,9 @@ export type AnswerResponse = {
   msg: string
   note: string
 }
+
+export type RenderFormResponse = {
+  success: boolean
+  requestId?: string
+  href?: string
+}

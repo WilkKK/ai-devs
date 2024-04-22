@@ -1,13 +1,4 @@
-import { EmbeddingCreateParams } from 'openai/resources'
-import { TaskResponse } from '../types/remote'
 import { TaskBasic } from './taskBasic'
-import OpenAI from 'openai'
-import fs from "fs";
-
-type FuntionData = TaskResponse & {
-
-
-}
 
 export class Funtion extends TaskBasic {
 
@@ -15,11 +6,9 @@ export class Funtion extends TaskBasic {
         super(name)
     }
 
+    async resolveTask(): Promise<unknown> {
 
-    async resolveTask({msg }: FuntionData): Promise<unknown> {
-
-
-       const response =  {
+        const response = {
             "name": "addUser",
             "description": "add user based on user name, surname and year",
             "parameters": {
@@ -40,9 +29,7 @@ export class Funtion extends TaskBasic {
                 }
             }
         }
-        return  response
+        return response
     }
-
-
 
 }

@@ -1,7 +1,6 @@
-import OpenAI from 'openai'
 import { TaskResponse } from '../types/remote'
 import { TaskBasic } from './taskBasic'
-import {ChatPromptTemplate} from "@langchain/core/prompts";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { ChatOpenAI } from '@langchain/openai';
 
 type BloggerData = TaskResponse & {
@@ -15,7 +14,7 @@ export class Blogger extends TaskBasic {
   chatPrompt = ChatPromptTemplate.fromMessages([
     ["system", this.systemTemplate],
     ["human", this.humanTemplate],
-]);
+  ]);
   constructor(name: string) {
     super(name)
   }
@@ -24,11 +23,10 @@ export class Blogger extends TaskBasic {
     const chat = new ChatOpenAI();
     const formattedChatPrompt = await this.chatPrompt.formatMessages({
       text: blog
-  });
-  const { content } = await chat.invoke(formattedChatPrompt);
-
-console.log(content);
-return content
+    });
+    
+    const { content } = await chat.invoke(formattedChatPrompt);
+    return content
   }
 
 }
